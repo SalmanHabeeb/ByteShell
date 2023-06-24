@@ -27,7 +27,7 @@ struct ListNode* prepend_list(struct ListNode* head, const char* data) {
     struct ListNode* curr = head;
     int counter = 0;
     while (curr) {
-        if (counter >= 300) {
+        if (counter >= MAX_LLIST_LENGTH) {
             free_list(curr);
             break;
         }
