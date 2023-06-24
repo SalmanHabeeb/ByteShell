@@ -13,14 +13,14 @@ void cd_command(char **args) {
         fprintf(stderr, "byteshell: cd: missing argument\n");
     } else {
         if (chdir(args[1]) != 0) {
-            perror("byteshell: ");
+            perror("byteshell");
         }
     }
 }
 
 void help_command(char **args) {
     char *helptext =
-        "ByteShell"
+        "ByteShell\n"
         "The following commands are built in:\n"
         "  cd       Change the working directory.\n"
         "  exit     Exit the shell.\n"

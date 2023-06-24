@@ -32,7 +32,7 @@ void run_shell_cmd(char **args) {
 
     if (child_pid == 0) {
         execvp(args[0], args);
-        perror("byteshell: ");
+        perror("byteshell");
         exit(1);
     } else if (child_pid > 0) {
         int status;
@@ -40,6 +40,6 @@ void run_shell_cmd(char **args) {
             waitpid(child_pid, &status, WUNTRACED);
         } while (!WIFEXITED(status) && !WIFSIGNALED(status));
     } else {
-        perror("byteshell: ");
+        perror("byteshell");
     }
 }

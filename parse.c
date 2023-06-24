@@ -5,13 +5,17 @@
 
 #include"parse.h"
 
+#ifndef GROWTH_FACTOR
+#define GROWTH_FACTOR 1.5
+#endif
+
 char **get_tokens(char *line) {
     int length = 0;
     int capacity = 16;
 
-    char **tokens = malloc(capacity * sizeof(char *));
+    char **tokens = calloc(capacity, sizeof(char*));
     if (!tokens) {
-        perror("byteshell: ");
+        perror("byteshell");
         exit(1);
     }
 
@@ -23,10 +27,10 @@ char **get_tokens(char *line) {
         length++;
 
         if (length >= capacity) {
-            capacity = (int)(capacity * 1.5);
-            tokens = realloc(tokens, capacity * sizeof(char *));
+            capacity = capacity * GROWTH_FACTOR;
+            tokens = realloc(tokens, capacity * sizeof(char*));
             if (!tokens) {
-                perror("byteshell: ");
+                perror("byteshell");
                 exit(1);
             }
         }
@@ -34,9 +38,9 @@ char **get_tokens(char *line) {
         token = strtok(NULL, delimiters);
     }
 
-    tokens[length] = NULL;
     return tokens;
 }
+
 
 char *shell_read_line() {
     char *line = NULL;
@@ -45,7 +49,7 @@ char *shell_read_line() {
     ssize_t strlen = getline(&line, &buflen, stdin);
     if (strlen < 0) {
         if (errno) {
-            perror("byteshell: ");
+            perror("byteshell");
         }
         exit(1);
     }
