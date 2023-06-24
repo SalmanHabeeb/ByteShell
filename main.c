@@ -30,7 +30,7 @@ void launch_shell() {
             } else  {
                 run_shell_cmd(tokens);
             }
-            history = prepend_list(history, line);
+            history = prepend_history(history, line);
         }
 
         free(tokens);

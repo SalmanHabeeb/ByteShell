@@ -5,4 +5,5 @@
 void show_history(struct ListNode* history);
 struct ListNode* get_history();
 void write_history(struct ListNode* history);
+struct ListNode* prepend_history(struct ListNode* history, char* data);
 #endif

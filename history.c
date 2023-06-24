@@ -52,6 +52,11 @@ void write_history(struct ListNode* node) {
         fprintf(file, "%s\n", node->data);
         node = node->next;
     }
-
     fclose(file);
+}
+
+struct ListNode* prepend_history(struct ListNode* history, char* data) {
+    history = prepend_list(history, data);
+    write_history(history);
+    return history;
 }

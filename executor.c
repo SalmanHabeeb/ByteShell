@@ -10,10 +10,10 @@
 #include "executor.h"
 
 struct inbuiltcmd inbuiltcmds[] = {
-    {"help", help_command},
-    {"show", show_license_command},
-    {"exit", exit_command},
-    {"cd", cd_command},
+    {"help", help_command, "Print this help text"},
+    {"show", show_license_command, "Show license"},
+    {"exit", exit_command, "Exit this shell"},
+    {"cd", cd_command, "Change the working directory"},
 };
 
 int get_no_of_inbuilt_cmds() {

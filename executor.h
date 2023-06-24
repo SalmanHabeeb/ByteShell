@@ -3,6 +3,7 @@
 struct inbuiltcmd {
     char *name;
     void (*func)(char **args);
+    char* description;
 };
 
 int get_no_of_inbuilt_cmds();

@@ -1,6 +1,6 @@
 #ifndef LLIST_H_
 #define LLIST_H_
-#define MAX_LLIST_LENGTH = 300;
+#define MAX_LLIST_LENGTH 300
 struct ListNode {
     char* data;
     struct ListNode* next;

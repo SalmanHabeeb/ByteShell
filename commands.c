@@ -24,12 +24,10 @@ void help_command(char **args) {
         "The following commands are built in:\n"
         "  cd       Change the working directory.\n"
         "  exit     Exit the shell.\n"
-        "  help     Print this help text.\n";
+        "  help     Print this help text.\n"
+        "  show     Print the license\n"
+        "It can fork and run other commands\n";
     printf("%s", helptext);
-}
-
-void history_command(char **args) {
-    
 }
 
 void show_license_command(char **args) {
