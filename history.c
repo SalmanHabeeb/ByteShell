@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<stdlib.h>
 
 #include"history.h"
 #include"llist.h"
@@ -41,8 +42,16 @@ struct ListNode* get_history() {
     return head;
 }
 
-void write_history(struct ListNode* node) {
-    FILE* file = fopen("history.dat", "w");
+void write_history(struct ListNode* node, char* path) {
+    char *filename = malloc(strlen(path) + strlen("/history.dat") + 1);
+    if (filename == NULL) {
+        return;
+    }
+
+    strcpy(filename, path);
+    strcat(filename, "/history.dat");
+
+    FILE* file = fopen(filename, "w");
     if (file == NULL) {
         fprintf(stderr, "Failed to open history file");
         return;
@@ -55,8 +64,8 @@ void write_history(struct ListNode* node) {
     fclose(file);
 }
 
-struct ListNode* prepend_history(struct ListNode* history, char* data) {
+struct ListNode* prepend_history(struct ListNode* history, char* data, char* path) {
     history = prepend_list(history, data);
-    write_history(history);
+    write_history(history, path);
     return history;
 }
