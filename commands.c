@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include<string.h>
 
+#include"history.h"
+
 void exit_command(char **args) {
     exit(0);
 }
@@ -50,4 +52,8 @@ void show_license_command(char **args) {
     }
     printf("\n");
     fclose(file);
+}
+
+void history_command(char **args, char *start_path) {
+    show_history(start_path);
 }

@@ -7,6 +7,7 @@ struct ListNode {
 };
 struct ListNode* create_node(const char* data);
 struct ListNode* prepend_list(struct ListNode* head, const char* data);
+struct ListNode* reverse_list(struct ListNode* head);
 void display_list(struct ListNode* head);
 void free_list(struct ListNode* head);
 #endif

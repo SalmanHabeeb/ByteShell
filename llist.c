@@ -37,6 +37,19 @@ struct ListNode* prepend_list(struct ListNode* head, const char* data) {
     return head;
 }
 
+struct ListNode* reverse_list(struct ListNode* head) {
+    struct ListNode *prev = NULL;
+    struct ListNode *curr = head;
+    while(curr) {
+        struct ListNode *temp = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = temp;
+    }
+    return prev;
+}
+
+
 void display_list(struct ListNode* head) {
     struct ListNode* current = head;
     if (current == NULL) {
@@ -56,5 +69,4 @@ void free_list(struct ListNode* head) {
         free(temp->data);
         free(temp);
     }
-    printf("Memory freed\n");
 }
