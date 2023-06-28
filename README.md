@@ -10,6 +10,8 @@ ByteShell is a simple Linux shell that supports basic commands and some addition
 
 ## Usage
 
+Clone the repository using `git clone https://github.com/SalmanHabeeb/ShortWeb.git`
+
 To compile the shell, run `gcc *.c -o main.exe` in the project directory. This will generate an executable file named `main.exe`.
 
 To run the shell, run `./main.exe` in the project directory. This will start the shell prompt, where you can enter commands.
