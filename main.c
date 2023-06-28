@@ -49,7 +49,7 @@ void launch_shell() {
     strcpy(history_line, line);
     strtok(history_line, "\n");
 
-    char **tokens = get_tokens(line);
+    char **tokens = get_tokens(line, " \t\r\n");
 
     if (tokens[0] != NULL) {
       run_shell_cmd(tokens, start_path);

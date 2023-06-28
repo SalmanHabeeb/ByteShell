@@ -28,6 +28,14 @@ void run_shell_cmd(char **args, char *start_path) {
     }
   }
 
+  if (strcmp(args[0], "alias") == 0) {
+    alias_command(args, start_path);
+    return;
+  } else if (strcmp(args[0], "unalias") == 0) {
+    unalias_command(args, start_path);
+    return;
+  }
+
   if (strcmp(args[0], "history") == 0) {
     history_command(args, start_path);
     return;

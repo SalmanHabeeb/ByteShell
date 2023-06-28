@@ -1,2 +1,5 @@
 *.dat
 *.exe
+*.bin
+
+*.vscode
