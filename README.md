@@ -36,8 +36,4 @@ The main steps of making a shell in C language are:
 
  [Making your own Linux Shell in C](https://www.geeksforgeeks.org/making-linux-shell-c/)
 
- [Tutorial to code a simple shell in C](https://medium.com/swlh/tutorial-to-code-a-simple-shell-in-c-9405b2d3533e)
-
- [Simple shell in C](https://gist.github.com/parse/966049)
- 
- [Shell in the C Programming language](https://stackoverflow.com/questions/8006218/shell-in-the-c-programming-language)
+ [GNU Bash Builtins](https://www.gnu.org/software/bash/manual/html_node/Bash-Builtins.html)
