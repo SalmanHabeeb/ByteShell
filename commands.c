@@ -99,7 +99,7 @@ void alias_command(char **args, char *start_path) {
     } else {
       char **tokens = get_tokens(args[1], "=");
       if (tokens[1] != NULL) {
-        fprintf(stderr, "%s, %s, \n", tokens[0], tokens[1]);
+        // fprintf(stderr, "%s, %s, \n", tokens[0], tokens[1]);  // debug
         create_alias(tokens[0], tokens[1], start_path);
       }
     }

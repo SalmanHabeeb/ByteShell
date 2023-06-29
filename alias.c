@@ -8,13 +8,13 @@
 #include "lmap.h"
 
 struct MapNode* get_aliases(char* path) {
-  char* filename = malloc(strlen(path) + strlen("/aliases.dat") + 1);
+  char* filename = malloc(strlen(path) + strlen("/aliases.bin") + 1);
   if (filename == NULL) {
     return NULL;
   }
 
   strcpy(filename, path);
-  strcat(filename, "/aliases.dat");
+  strcat(filename, "/aliases.bin");
 
   FILE* file = fopen(filename, "rb");  // Open the file in binary read mode
   free(filename);
@@ -81,7 +81,8 @@ struct MapNode* get_aliases(char* path) {
     // struct MapNode* node = create_map_node(key, value);
 
     // Append the node to the list
-    append_map(head, key, value);
+    struct MapNode* node = create_map_node(key, value);
+    head = append_map_node(head, node);
 
     // Free the key and value strings as they are copied by create_map_node
     free(key);
@@ -94,22 +95,27 @@ struct MapNode* get_aliases(char* path) {
 
 void show_aliases(char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
-  if (aliases != NULL) {
-    display_map(aliases);
-    free_map(aliases);
-  } else {
+  if (aliases == NULL) {
     fprintf(stderr, "No aliases\n");
+    return;
   }
+  struct MapNode* current = aliases;
+
+  while (current != NULL) {
+    fprintf(stderr, "alias %s='%s'\n", current->key, current->value);
+    current = current->next;
+  }
+  free_map(aliases);
 }
 
 void write_aliases(struct MapNode* head, char* path) {
-  char* filename = malloc(strlen(path) + strlen("/aliases.dat") + 1);
+  char* filename = malloc(strlen(path) + strlen("/aliases.bin") + 1);
   if (filename == NULL) {
     return;
   }
 
   strcpy(filename, path);
-  strcat(filename, "/aliases.dat");
+  strcat(filename, "/aliases.bin");
 
   FILE* file = fopen(filename, "wb");  // Open the file in binary write mode
   if (file == NULL) {
@@ -119,6 +125,7 @@ void write_aliases(struct MapNode* head, char* path) {
   }
 
   struct MapNode* current = head;
+  // fprintf(stderr, "%s", current->key);  // debug
   while (current != NULL) {
     size_t key_len = strlen(current->key);  // Get the length of the key string
     size_t value_len =
@@ -144,19 +151,16 @@ void write_aliases(struct MapNode* head, char* path) {
 
 void create_alias(char* key, char* value, char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
-
-  aliases = append_map(aliases, key, value);
-  fprintf(stderr, "%s, %s", aliases->key, aliases->value);
+  struct MapNode* new_alias = create_map_node(key, value);
+  aliases = append_map_node(aliases, new_alias);
+  // fprintf(stderr, "%s, %s", aliases->key, aliases->value);
   write_aliases(aliases, start_path);
-  fprintf(stderr, "I came till here\n");
   free_map(aliases);
 }
 
 void remove_alias(char* key, char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
-  bool is_deleted = delete_map_node_by_key(aliases, key);
-  if (!is_deleted) {
-    printf("No such alias %s", key);
-  }
+  aliases = delete_map_node_by_key(aliases, key);
+  write_aliases(aliases, start_path);
   free_map(aliases);
 }

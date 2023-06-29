@@ -9,9 +9,9 @@ struct MapNode {
   struct MapNode* next;
 };
 struct MapNode* create_map_node(char* key, char* values);
-struct MapNode* append_map(struct MapNode* head, char* key, char* values);
+struct MapNode* append_map_node(struct MapNode* head, struct MapNode* node);
 struct MapNode* get_map_node_by_key(struct MapNode* head, char* key);
-bool delete_map_node_by_key(struct MapNode* head, char* key);
-void display_map(struct MapNode* head);
+struct MapNode* delete_map_node_by_key(struct MapNode* head, char* key);
+// void display_map(struct MapNode* head);
 void free_map(struct MapNode* head);
 #endif
