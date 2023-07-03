@@ -6,7 +6,7 @@ ByteShell is a simple Linux shell that supports basic commands and some addition
 
 - Store history and access it using `history` command
 - Create alias for a command using `alias` command
-- Other inbuilt commands like `cd`, `help`, `show license`, and `exit`
+- Other inbuilt commands like `cd`, `help`, `show license`, `ulimit`, and `exit`
 
 ## Usage
 
