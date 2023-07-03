@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "llist.h"
+#include "../llist/llist.h"
 
 void show_history(char* path) {
   struct ListNode* history = get_history(path);

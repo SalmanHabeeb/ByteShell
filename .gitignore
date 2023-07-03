@@ -9,3 +9,6 @@
 # VsCode files
 
 *.vscode
+
+/build
+/main

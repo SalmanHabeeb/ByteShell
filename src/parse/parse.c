@@ -6,7 +6,7 @@
 #include <string.h>
 #include <sys/types.h>
 
-#include "llist.h"
+#include "../llist/llist.h"
 
 struct ListNode *get_tokens(char *line, char *delimiters) {
   struct ListNode *tokens = NULL;

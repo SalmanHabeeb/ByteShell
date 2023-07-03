@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "lmap.h"
+#include "../lmap/lmap.h"
 
 struct MapNode* get_aliases(char* path) {
   char* filename = malloc(strlen(path) + strlen("/aliases.bin") + 1);
@@ -173,5 +173,5 @@ void remove_alias(char* key, char* start_path) {
 }
 
 void remove_all_aliases(char* start_path) {
-  write_aliases(NULL, start_path);   // Overwrite existing aliases
+  write_aliases(NULL, start_path);  // Overwrite existing aliases
 }

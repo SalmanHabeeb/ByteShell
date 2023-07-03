@@ -1,4 +1,4 @@
-#include "lmap.h"
+#include "../lmap/lmap.h"
 
 #ifndef ALIAS_H_
 #define ALIAS_H_

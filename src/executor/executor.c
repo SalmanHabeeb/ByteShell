@@ -7,11 +7,11 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "alias.h"
-#include "commands.h"
-#include "llist.h"
-#include "lmap.h"
-#include "parse.h"
+#include "../alias/alias.h"
+#include "../commands/commands.h"
+#include "../llist/llist.h"
+#include "../lmap/lmap.h"
+#include "../parse/parse.h"
 
 struct inbuiltcmd inbuiltcmds[] = {
     {"help", help_command, "Print this help text"},

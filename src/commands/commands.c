@@ -4,11 +4,11 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "alias.h"
-#include "history.h"
-#include "llist.h"
-#include "parse.h"
-#include "ulimit.h"
+#include "../alias/alias.h"
+#include "../history/history.h"
+#include "../llist/llist.h"
+#include "../parse/parse.h"
+#include "../ulimit/ulimit.h"
 
 void exit_command(char **args, char *start_path) { exit(0); }
 
