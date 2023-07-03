@@ -21,7 +21,6 @@ int main() {
 }
 
 void launch_shell() {
-  struct ListNode *history;
 #ifndef BUF_SIZE
 #define BUF_SIZE 64
 #endif
@@ -44,19 +43,19 @@ void launch_shell() {
     printf(ANSI_COLOR_CYAN "%s: " ANSI_COLOR_RESET "$ ", curr_path);
 
     char *line = shell_read_line();
-    char *history_line = malloc(strlen(line));
+    char *history_line = malloc(strlen(line)+1);
 
     strcpy(history_line, line);
     strtok(history_line, "\n");
 
-    char **tokens = get_tokens(line, " \t\r\n");
+    struct ListNode *tokens = get_tokens(line, " \t\r\n");
 
-    if (tokens[0] != NULL) {
+    if (tokens != NULL) {
       run_shell_cmd(tokens, start_path);
       prepend_history(history_line, start_path);
     }
 
-    free(tokens);
+    free_list(&tokens);
     free(line);
     free(history_line);
     free(curr_path);

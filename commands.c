@@ -6,11 +6,13 @@
 
 #include "alias.h"
 #include "history.h"
+#include "llist.h"
 #include "parse.h"
+#include "ulimit.h"
 
-void exit_command(char **args) { exit(0); }
+void exit_command(char **args, char *start_path) { exit(0); }
 
-void cd_command(char **args) {
+void cd_command(char **args, char *start_path) {
   if (args[1] == NULL) {
     fprintf(stderr, "byteshell: cd: missing argument\n");
   } else {
@@ -20,7 +22,7 @@ void cd_command(char **args) {
   }
 }
 
-void help_command(char **args) {
+void help_command(char **args, char *start_path) {
   char *helptext =
       "ByteShell\n"
       "The following commands are built in:\n"
@@ -32,7 +34,7 @@ void help_command(char **args) {
   printf("%s", helptext);
 }
 
-void show_license_command(char **args) {
+void show_license_command(char **args, char *start_path) {
   if (args[1] == NULL ||
       (strcmp("--l", args[1]) != 0 && strcmp("--mini", args[1]) != 0)) {
     fprintf(stderr,
@@ -61,35 +63,35 @@ void history_command(char **args, char *start_path) {
 }
 
 // Function to count the number of tokens in an array
-int count_tokens(char **tokens) {
-  int count = 0;
-  while (tokens[count] != NULL) {
-    count++;
-  }
-  return count;
-}
+// int count_tokens(char **tokens) {
+//   int count = 0;
+//   while (tokens[count] != NULL) {
+//     count++;
+//   }
+//   return count;
+// }
 
-// Function to concatenate tokens into a single string
-char *concat_tokens(char **tokens, int start_index, int end_index) {
-  int total_length = 0;
-  for (int i = start_index; i <= end_index; i++) {
-    total_length += strlen(tokens[i]);
-  }
+// // Function to concatenate tokens into a single string
+// char *concat_tokens(char **tokens, int start_index, int end_index) {
+//   int total_length = 0;
+//   for (int i = start_index; i <= end_index; i++) {
+//     total_length += strlen(tokens[i]);
+//   }
 
-  char *result = malloc(total_length + 1);  // +1 for the null terminator
-  if (result == NULL) {
-    fprintf(stderr, "Failed to allocate memory.\n");
-    exit(1);
-  }
+//   char *result = malloc(total_length + 1);  // +1 for the null terminator
+//   if (result == NULL) {
+//     fprintf(stderr, "Failed to allocate memory.\n");
+//     exit(1);
+//   }
 
-  result[0] = '\0';  // Initialize the result string as an empty string
+//   result[0] = '\0';  // Initialize the result string as an empty string
 
-  for (int i = start_index; i <= end_index; i++) {
-    strcat(result, tokens[i]);
-  }
+//   for (int i = start_index; i <= end_index; i++) {
+//     strcat(result, tokens[i]);
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
 void alias_command(char **args, char *start_path) {
   if (args[1] != NULL) {
@@ -97,10 +99,11 @@ void alias_command(char **args, char *start_path) {
       show_aliases(start_path);
       return;
     } else {
-      char **tokens = get_tokens(args[1], "=");
-      if (tokens[1] != NULL) {
-        // fprintf(stderr, "%s, %s, \n", tokens[0], tokens[1]);  // debug
-        create_alias(tokens[0], tokens[1], start_path);
+      char *alias_arg = concat_tokens(args + 1, " ");
+      struct ListNode *tokens = get_tokens(alias_arg, "='\"");
+      free(alias_arg);
+      if (tokens != NULL) {
+        create_alias(tokens->data, tokens->next->data, start_path);
       }
     }
   } else {
@@ -112,6 +115,27 @@ void alias_command(char **args, char *start_path) {
 
 void unalias_command(char **args, char *start_path) {
   if (args[1] != NULL) {
-    remove_alias(args[1], start_path);
+    if (strcmp(args[1], "-a") == 0) {
+      remove_all_aliases(start_path);
+    } else {
+      remove_alias(args[1], start_path);
+    }
+  }
+}
+
+void ulimit_command(char **args, char *start_path) {
+  if (args[1] == NULL) {
+  } else if (args[1] != NULL) {
+    if (strcmp(args[1], "-a") == 0) {
+      show_all_limits();
+    } else {
+      if (args[2] != NULL && strlen(args[1]) >= 2) {
+        long num;
+        sscanf(args[2], "%ld", &num);
+        set_limit_option(args[1][1], num);
+      } else if (strlen(args[1]) >= 2) {
+        show_limit(args[1][1]);
+      }
+    }
   }
 }

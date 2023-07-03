@@ -1,5 +1,11 @@
+
+# Application files
+
 *.dat
 *.exe
 *.bin
+*.out
+
+# VsCode files
 
 *.vscode

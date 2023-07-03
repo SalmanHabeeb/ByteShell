@@ -11,7 +11,7 @@ void show_history(char* path) {
   //   printf("%s", history->data);
   history = reverse_list(history);
   display_list(history);
-  free_list(history);
+  free_list(&history);
 }
 
 struct ListNode* get_history(char* path) {
@@ -36,7 +36,7 @@ struct ListNode* get_history(char* path) {
     struct ListNode* newNode = create_node(buffer);
     if (newNode == NULL) {
       fclose(file);
-      free_list(head);
+      free_list(&head);
       return NULL;
     }
 
@@ -79,5 +79,5 @@ void prepend_history(char* data, char* path) {
   struct ListNode* history = get_history(path);
   history = prepend_list(history, data);
   write_history(history, path);
-  free_list(history);
+  free_list(&history);
 }

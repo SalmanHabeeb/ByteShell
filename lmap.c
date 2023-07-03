@@ -11,7 +11,6 @@ struct MapNode *create_map_node(char *key, char *value) {
   // Allocate memory for the new node
   struct MapNode *new_node = malloc(sizeof(struct MapNode));
   if (new_node == NULL) {
-    // Handle memory allocation error
     return NULL;
   }
 
@@ -19,17 +18,14 @@ struct MapNode *create_map_node(char *key, char *value) {
   new_node->key = malloc(strlen(key) + 1);
   new_node->value = malloc(strlen(value) + 1);
   if (new_node->key == NULL || new_node->value == NULL) {
-    // Handle memory allocation error
     free(new_node);
     return NULL;
   }
   strcpy(new_node->key, key);
   strcpy(new_node->value, value);
 
-  // Set the next pointer of the new node to NULL
   new_node->next = NULL;
 
-  // Return the new node
   return new_node;
 }
 
@@ -37,13 +33,11 @@ struct MapNode *create_map_node(char *key, char *value) {
 // It takes a pointer to the head of the list and a pointer to the node to be
 // appended as parameters It returns nothing
 struct MapNode *append_map_node(struct MapNode *head, struct MapNode *node) {
-  // If the list is empty, set the head to the node
   if (head == NULL) {
     head = node;
     return head;
   }
 
-  // Create a pointer to traverse the list
   struct MapNode *current = head;
 
   // Find the last node of the list
@@ -51,7 +45,6 @@ struct MapNode *append_map_node(struct MapNode *head, struct MapNode *node) {
     current = current->next;
   }
 
-  // Set the next pointer of the last node to the node to be appended
   current->next = node;
   return head;
 }
@@ -66,10 +59,8 @@ struct MapNode *delete_map_node_by_key(struct MapNode *head, char *key) {
     return NULL;
   }
 
-  // Create a pointer to store the previous node of the current node
   struct MapNode *prev = NULL;
 
-  // Create a pointer to traverse the list
   struct MapNode *current = head;
 
   // Find the node with the matching key
@@ -93,8 +84,6 @@ struct MapNode *delete_map_node_by_key(struct MapNode *head, char *key) {
     prev->next = current->next;
   }
 
-  // Free the memory allocated for the current node and its key and value
-  // strings
   free(current->key);
   free(current->value);
 
@@ -123,20 +112,15 @@ struct MapNode *get_map_node_by_key(struct MapNode *head, char *key) {
 // This function frees the memory allocated for a linked list of MapNodes
 // It takes a pointer to the head of the list as a parameter
 // It returns nothing
-void free_map(struct MapNode *head) {
-  // Create a pointer to store the current node
-  struct MapNode *current = head;
+void free_map(struct MapNode **head) {
+  struct MapNode *current = *head;
 
-  // Create a pointer to store the next node
   struct MapNode *next = NULL;
 
   // Traverse the list until the end is reached
   while (current != NULL) {
-    // Save the next node
     next = current->next;
 
-    // Free the memory allocated for the current node and its key and value
-    // strings
     free(current->key);
     free(current->value);
     free(current);
@@ -145,6 +129,5 @@ void free_map(struct MapNode *head) {
     current = next;
   }
 
-  // Set the head to NULL
-  head = NULL;
+  *head = NULL;
 }

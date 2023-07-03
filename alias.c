@@ -33,7 +33,7 @@ struct MapNode* get_aliases(char* path) {
     if (key == NULL) {
       perror("byteshell");
       fclose(file);
-      free_map(head);
+      free_map(&head);
       return NULL;
     }
 
@@ -42,7 +42,7 @@ struct MapNode* get_aliases(char* path) {
       perror("byteshell");
       fclose(file);
       free(key);
-      free_map(head);
+      free_map(&head);
       return NULL;
     }
     key[key_len] = '\0';  // Add a null terminator to the key string
@@ -52,7 +52,7 @@ struct MapNode* get_aliases(char* path) {
       perror("byteshell");
       fclose(file);
       free(key);
-      free_map(head);
+      free_map(&head);
       return NULL;
     }
 
@@ -62,7 +62,7 @@ struct MapNode* get_aliases(char* path) {
       perror("byteshell");
       fclose(file);
       free(key);
-      free_map(head);
+      free_map(&head);
       return NULL;
     }
 
@@ -72,7 +72,7 @@ struct MapNode* get_aliases(char* path) {
       fclose(file);
       free(key);
       free(value);
-      free_map(head);
+      free_map(&head);
       return NULL;
     }
     value[value_len] = '\0';  // Add a null terminator to the value string
@@ -93,6 +93,13 @@ struct MapNode* get_aliases(char* path) {
   return head;
 }
 
+struct MapNode* get_alias(char* key, char* start_path) {
+  struct MapNode* aliases = get_aliases(start_path);
+  struct MapNode* node = get_map_node_by_key(aliases, key);
+  // free_map(&aliases);
+  return node;
+}
+
 void show_aliases(char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
   if (aliases == NULL) {
@@ -105,7 +112,7 @@ void show_aliases(char* start_path) {
     fprintf(stderr, "alias %s='%s'\n", current->key, current->value);
     current = current->next;
   }
-  free_map(aliases);
+  free_map(&aliases);
 }
 
 void write_aliases(struct MapNode* head, char* path) {
@@ -155,12 +162,16 @@ void create_alias(char* key, char* value, char* start_path) {
   aliases = append_map_node(aliases, new_alias);
   // fprintf(stderr, "%s, %s", aliases->key, aliases->value);
   write_aliases(aliases, start_path);
-  free_map(aliases);
+  free_map(&aliases);
 }
 
 void remove_alias(char* key, char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
   aliases = delete_map_node_by_key(aliases, key);
   write_aliases(aliases, start_path);
-  free_map(aliases);
+  free_map(&aliases);
+}
+
+void remove_all_aliases(char* start_path) {
+  write_aliases(NULL, start_path);   // Overwrite existing aliases
 }
