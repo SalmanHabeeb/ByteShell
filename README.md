@@ -10,11 +10,17 @@ ByteShell is a simple Linux shell that supports basic commands and some addition
 
 ## Usage
 
-Clone the repository using `git clone https://github.com/SalmanHabeeb/ByteShell.git`
+Make sure you are using linux environment like Ubuntu, WSL, etc. Clone the repository using `git clone https://github.com/SalmanHabeeb/ByteShell.git`
 
-To compile the shell, run `gcc *.c -o main.exe` in the project directory. This will generate an executable file named `main.exe`.
+Before compiling the shell, make sure you have install CMake. To compile the shell, navigate to the project directory and run the following:
 
-To run the shell, run `./main.exe` in the project directory. This will start the shell prompt, where you can enter commands.
+```
+mkdir build
+cd build
+cmake ..
+``` 
+
+This will generate an executable file named `main` in the project folder. You can navigate back to project folder and run `./main` to launch the shell.
 
 To exit the shell, enter `exit` or press Ctrl-C.
 
