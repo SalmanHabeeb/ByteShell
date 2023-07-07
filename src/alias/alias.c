@@ -8,13 +8,13 @@
 #include "../lmap/lmap.h"
 
 struct MapNode* get_aliases(char* path) {
-  char* filename = malloc(strlen(path) + strlen("/aliases.bin") + 1);
+  char* filename = malloc(strlen(path) + strlen("/.byte_aliases") + 1);
   if (filename == NULL) {
     return NULL;
   }
 
   strcpy(filename, path);
-  strcat(filename, "/aliases.bin");
+  strcat(filename, "/.byte_aliases");
 
   FILE* file = fopen(filename, "rb");  // Open the file in binary read mode
   free(filename);
@@ -116,13 +116,13 @@ void show_aliases(char* start_path) {
 }
 
 void write_aliases(struct MapNode* head, char* path) {
-  char* filename = malloc(strlen(path) + strlen("/aliases.bin") + 1);
+  char* filename = malloc(strlen(path) + strlen("/.byte_aliases") + 1);
   if (filename == NULL) {
     return;
   }
 
   strcpy(filename, path);
-  strcat(filename, "/aliases.bin");
+  strcat(filename, "/.byte_aliases");
 
   FILE* file = fopen(filename, "wb");  // Open the file in binary write mode
   if (file == NULL) {

@@ -15,13 +15,13 @@ void show_history(char* path) {
 }
 
 struct ListNode* get_history(char* path) {
-  char* filename = malloc(strlen(path) + strlen("/history.dat") + 1);
+  char* filename = malloc(strlen(path) + strlen("/.byte_history") + 1);
   if (filename == NULL) {
     return create_node("");
   }
 
   strcpy(filename, path);
-  strcat(filename, "/history.dat");
+  strcat(filename, "/.byte_history");
   FILE* file = fopen(filename, "r");
   if (file == NULL) {
     return create_node("");
@@ -54,13 +54,13 @@ struct ListNode* get_history(char* path) {
 }
 
 void write_history(struct ListNode* node, char* path) {
-  char* filename = malloc(strlen(path) + strlen("/history.dat") + 1);
+  char* filename = malloc(strlen(path) + strlen("/.byte_history") + 1);
   if (filename == NULL) {
     return;
   }
 
   strcpy(filename, path);
-  strcat(filename, "/history.dat");
+  strcat(filename, "/.byte_history");
 
   FILE* file = fopen(filename, "w");
   if (file == NULL) {
