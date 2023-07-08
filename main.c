@@ -13,6 +13,8 @@
 #define ANSI_COLOR_CYAN "\x1b[36m\x1b[1m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
+#define BUF_SIZE 256
+
 void launch_shell();
 
 extern char **environ;
@@ -23,18 +25,16 @@ int main() {
 }
 
 int setup_config(char *file_name, char **path_font, char **text_font) {
-  FILE *file;          // This is your file stream
-  char buffer[256];    // This is a buffer to store each line of the file
-  char *name, *value;  // These are pointers to store the name and value of each
-                       // directive
+  FILE *file;
+  char buffer[BUF_SIZE];
+  char *name, *value;
 
-  file = fopen(file_name, "r");  // This will open your config file for reading
-  if (file == NULL) {            // Check if the file is NULL
-    return -1;                   // Return an error code
+  file = fopen(file_name, "r");
+  if (file == NULL) {
+    return -1;
   }
 
-  while (fgets(buffer, sizeof(buffer), file) !=
-         NULL) {  // Loop until the end of the file
+  while (fgets(buffer, sizeof(buffer), file) != NULL) {
     if (buffer[0] ==
         '#') {  // If the first character is #, skip this line as a comment
       continue;
@@ -43,7 +43,7 @@ int setup_config(char *file_name, char **path_font, char **text_font) {
         2) {  // Parse the name and value using sscanf
       // The %m modifier allocates memory for the matched string
       // The [^=] and [^\n] match any character except = and newline
-      if (strcmp(name, "PATH_FONT") == 0) {  // If the name is PATH_COLOR
+      if (strcmp(name, "PATH_FONT") == 0) {
         free(*path_font);
         *path_font = malloc(strlen(value) + 1);
         strcpy(*path_font, value);
@@ -56,44 +56,41 @@ int setup_config(char *file_name, char **path_font, char **text_font) {
         *text_font = malloc(strlen(value) + 1);
         strcpy(*text_font, value);
       } else {
-        fprintf(stderr, "Unknown directive %s\n",
-                name);  // Otherwise, print an error message
+        fprintf(stderr, "Unknown directive %s\n", name);
       }
-      free(name);  // Free the memory allocated by sscanf for name
+      free(name);
     } else {
-      fprintf(stderr,
-              "Invalid format in config file\n");  // Print an error message if
-                                                   // sscanf fails
+      fprintf(stderr, "Invalid format in config file\n");
     }
   }
 
-  fclose(file);  // Close the file stream
-  return 1;      // Return a success code
+  fclose(file);
+  return 1;
 }
 
-void launch_shell() {
-#ifndef BUF_SIZE
-#define BUF_SIZE 64
-#endif
-  char *start_path = malloc(BUF_SIZE);
-  char *path_font = "\x1b[36m\x1b[1m";
-  char *text_font = "\x1b[0m";
-
-  getcwd(start_path, BUF_SIZE);
-  if (start_path == NULL) {
-    perror("_getcwd");
+void init_shell(char **start_path, char **path_font, char **text_font) {
+  getcwd(*start_path, BUF_SIZE);
+  if (*start_path == NULL) {
+    perror("byteshell");
     exit(EXIT_FAILURE);
   }
   char *home_path = getenv("HOME");
   if (home_path) {
-    free(start_path);
-    start_path = malloc(strlen(home_path) + 1);
-    strcpy(start_path, home_path);
+    free(*start_path);
+    *start_path = malloc(strlen(home_path) + 1);
+    strcpy(*start_path, home_path);
     if (chdir(home_path) != 0) {
       perror("byteshell");
     }
-    setup_config(".byte_config", &path_font, &text_font);
+    setup_config(".byte_config", path_font, text_font);
   }
+}
+
+void launch_shell() {
+  char *start_path = malloc(BUF_SIZE);
+  char *path_font = "\x1b[36m\x1b[1m";
+  char *text_font = "\x1b[0m";
+  init_shell(&start_path, &path_font, &text_font);
   // char **s = environ;
   // for (; *s; s++) {
   //   printf("%s\n", *s);
@@ -103,7 +100,7 @@ void launch_shell() {
 
     getcwd(curr_path, BUF_SIZE);
     if (curr_path == NULL) {
-      perror("_getcwd");
+      perror("byteshell");
       exit(EXIT_FAILURE);
     }
 

@@ -6,6 +6,8 @@ struct ListNode {
   struct ListNode* next;
 };
 struct ListNode* create_node(const char* data);
+struct ListNode* insert_node(struct ListNode* head, struct ListNode* node,
+                             int index);
 struct ListNode* prepend_list(struct ListNode* head, const char* data);
 struct ListNode* reverse_list(struct ListNode* head);
 int count_list(struct ListNode* head);

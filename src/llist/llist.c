@@ -16,6 +16,21 @@ struct ListNode* create_node(const char* data) {
   return newNode;
 }
 
+struct ListNode* insert_node(struct ListNode* head, struct ListNode* node,
+                             int index) {
+  struct ListNode* current = head;
+  struct ListNode* prev = NULL;
+  while (current != NULL && index != 0) {
+    prev = current;
+    current = current->next;
+    index--;
+  }
+  prev->next = node;
+  prev->next->next = current;
+
+  return head;
+}
+
 struct ListNode* prepend_list(struct ListNode* head, const char* data) {
   struct ListNode* newNode = create_node(data);
   if (newNode == NULL) {

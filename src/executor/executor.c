@@ -52,7 +52,26 @@ char **copy(struct ListNode *head, int size) {
   return array;
 }
 
+void variable_expansion(struct ListNode **tokens) {
+  struct ListNode *current = *tokens;
+  while (current) {
+    if (current->data[0] == '$') {
+      char *rem_string = current->data + 1;
+      char *env_var = getenv(rem_string);
+      if (env_var != NULL) {
+        free(current->data);
+        current->data = malloc(strlen(env_var) + 1);
+        strcpy(current->data, env_var);
+        env_var = NULL;
+      }
+      rem_string = NULL;
+    }
+    current = current->next;
+  }
+}
+
 void run_shell_cmd(struct ListNode *tokens, char *start_path) {
+  variable_expansion(&tokens);
   int count = count_list(tokens);
 
   char **args = copy(tokens, count);
