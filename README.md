@@ -18,6 +18,7 @@ Before compiling the shell, make sure you have install CMake. To compile the she
 mkdir build
 cd build
 cmake ..
+make
 ``` 
 
 This will generate an executable file named `main` in the project folder. You can navigate back to project folder and run `./main` to launch the shell.
