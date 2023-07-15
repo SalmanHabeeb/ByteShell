@@ -102,9 +102,15 @@ void alias_command(char **args, char *start_path) {
       char *alias_arg = concat_tokens(args + 1, " ");
       struct ListNode *tokens = get_tokens(alias_arg, "='\"");
       free(alias_arg);
-      if (tokens != NULL) {
+      alias_arg = NULL;
+      if (tokens != NULL && tokens->next != NULL) {
         create_alias(tokens->data, tokens->next->data, start_path);
+        fprintf(stderr, "I came till here\n");
+      } else if (tokens != NULL) {
+        fprintf(stderr, "byteshell: Invalid arguments\n");
       }
+      free(tokens);
+      tokens = NULL;
     }
   } else {
     fprintf(stderr,

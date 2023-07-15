@@ -159,6 +159,7 @@ void write_aliases(struct MapNode* head, char* path) {
 void create_alias(char* key, char* value, char* start_path) {
   struct MapNode* aliases = get_aliases(start_path);
   struct MapNode* new_alias = create_map_node(key, value);
+
   aliases = append_map_node(aliases, new_alias);
   // fprintf(stderr, "%s, %s", aliases->key, aliases->value);
   write_aliases(aliases, start_path);
