@@ -88,8 +88,8 @@ void init_shell(char **start_path, char **path_font, char **text_font) {
 
 void launch_shell() {
   char *start_path = malloc(BUF_SIZE);
-  char *path_font = "\x1b[36m\x1b[1m";
-  char *text_font = "\x1b[0m";
+  char *path_font = ANSI_COLOR_CYAN;
+  char *text_font = ANSI_COLOR_RESET;
   init_shell(&start_path, &path_font, &text_font);
   // char **s = environ;
   // for (; *s; s++) {
@@ -121,9 +121,13 @@ void launch_shell() {
 
     free_list(&tokens);
     free(line);
+    line = NULL;
     free(history_line);
+    history_line = NULL;
     free(curr_path);
+    curr_path = NULL;
   }
 
   free(start_path);
+  start_path = NULL;
 }
